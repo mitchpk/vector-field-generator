@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 
 		Drawing::clear(renderer);
 
-		Drawing::line(renderer, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 4 * 3, SCREEN_HEIGHT / 4 * 3, 0, 255, 0, 0.5);
+		Drawing::line(renderer, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 4 * 3, SCREEN_HEIGHT / 4 * 3, 255, 0, 0, 0.5);
 		Drawing::line(renderer, SCREEN_WIDTH / 4 * 3, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4 * 3, 0, 0, 255, 0.5);
 
 		SDL_RenderPresent(renderer);
