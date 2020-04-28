@@ -36,7 +36,6 @@ int main(int argc, char** argv)
 		Vector test2 = Vector({ -2, -2 }, { 5, 10 });
 		Vector test3 = Vector({ 11, 2 }, { 15, 1 });
 		Vector test4 = Vector({ 2, 2 }, { 2, 5 });
-		Vector test5 = Vector({ 0, 0 }, { 0, 0 });
 
 		test1.head -= window.toCoords(camera);
 		test1.tail -= window.toCoords(camera);
@@ -46,16 +45,12 @@ int main(int argc, char** argv)
 		test3.tail -= window.toCoords(camera);
 		test4.head -= window.toCoords(camera);
 		test4.tail -= window.toCoords(camera);
-		test5.head -= window.toCoords(camera);
-		test5.tail -= window.toCoords(camera);
 
 		window.drawVector(test1, 0, 255, 255);
 		window.drawVector(test2, 155, 0, 55, 0.5);
 		window.drawVector(test3, 0, 255, 255, 0.21);
 		window.drawVector(test4, 255, 0, 255, 0.75);
 		
-		std::cout << test5.tail.toString() << std::endl;
-		window.drawVector(test5, 255, 0, 0);
 		window.render();
 	}
 

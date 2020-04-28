@@ -25,4 +25,6 @@ public:
 	Utils::Vector2 head;
 	Utils::Vector2 arrowPoint1;
 	Utils::Vector2 arrowPoint2;
+
+	bool isValid = true;
 };

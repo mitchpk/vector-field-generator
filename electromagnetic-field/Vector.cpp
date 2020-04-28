@@ -3,6 +3,9 @@
 
 Vector::Vector(Utils::Vector2 _tail, Utils::Vector2 _head, float length, VectorType type, float arrowAngle, float arrowLength) : head(_head), tail(_tail)
 {	
+	if (head == tail)
+		isValid = false;
+
 	switch (type)
 	{
 	case VectorType::scaled:

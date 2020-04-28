@@ -14,27 +14,30 @@ void Window::clear(Uint8 r, Uint8 g, Uint8 b)
 	SDL_RenderClear(renderer);
 }
 
-void Window::drawPoint(int x, int y, Uint8 r, Uint8 g, Uint8 b, double brightness)
+void Window::drawPoint(int x, int y, Uint8 r, Uint8 g, Uint8 b, double opacity)
 {
-	SDL_SetRenderDrawColor(renderer, r, g, b, brightness * 255);
+	SDL_SetRenderDrawColor(renderer, r, g, b, opacity * 255);
 	SDL_RenderDrawPoint(renderer, x, y);
 };
 
-void Window::drawLine(Utils::Vector2 point1, Utils::Vector2 point2, Uint8 r, Uint8 g, Uint8 b, double brightness)
+void Window::drawLine(Utils::Vector2 point1, Utils::Vector2 point2, Uint8 r, Uint8 g, Uint8 b, double opacity)
 {
-	drawLine(point1.x, point1.y, point2.x, point2.y, r, g, b, brightness);
-	//SDL_SetRenderDrawColor(renderer, r, g, b, brightness * 255);
+	drawLine(point1.x, point1.y, point2.x, point2.y, r, g, b, opacity);
+	//SDL_SetRenderDrawColor(renderer, r, g, b, opacity * 255);
 	//SDL_RenderDrawLine(renderer, point1.x, point1.y, point2.x, point2.y);
 }
 
-void Window::drawVector(Vector vector, Uint8 r, Uint8 g, Uint8 b, double brightness)
+void Window::drawVector(Vector vector, Uint8 r, Uint8 g, Uint8 b, double opacity)
 {
-	drawLine(toPixels(vector.head), toPixels(vector.tail), r, g, b, brightness);
-	drawLine(toPixels(vector.arrowPoint1 + vector.head), toPixels(vector.head), r, g, b, brightness);
-	drawLine(toPixels(vector.arrowPoint2 + vector.head), toPixels(vector.head), r, g, b, brightness);
+	if (vector.isValid)
+	{
+		drawLine(toPixels(vector.head), toPixels(vector.tail), r, g, b, opacity);
+		drawLine(toPixels(vector.arrowPoint1 + vector.head), toPixels(vector.head), r, g, b, opacity);
+		drawLine(toPixels(vector.arrowPoint2 + vector.head), toPixels(vector.head), r, g, b, opacity);
+	}
 }
 
-void Window::drawLine(double x0, double y0, double x1, double y1, Uint8 r, Uint8 g, Uint8 b, double brightness)
+void Window::drawLine(double x0, double y0, double x1, double y1, Uint8 r, Uint8 g, Uint8 b, double opacity)
 {
 	bool steep = fabs(y1 - y0) > fabs(x1 - x0);
 
@@ -63,14 +66,14 @@ void Window::drawLine(double x0, double y0, double x1, double y1, Uint8 r, Uint8
 
 	if (steep)
 	{
-		drawPoint(yPixel1, xPixel1, r, g, b, rfPart(yEnd) * xGap * brightness);
-		drawPoint(yPixel1 + 1, xPixel1, r, g, b, fPart(yEnd) * xGap * brightness);
+		drawPoint(yPixel1, xPixel1, r, g, b, rfPart(yEnd) * xGap * opacity);
+		drawPoint(yPixel1 + 1, xPixel1, r, g, b, fPart(yEnd) * xGap * opacity);
 	}
 
 	else
 	{
-		drawPoint(xPixel1, yPixel1, r, g, b, rfPart(yEnd) * xGap * brightness);
-		drawPoint(xPixel1, yPixel1 + 1, r, g, b, fPart(yEnd) * xGap * brightness);
+		drawPoint(xPixel1, yPixel1, r, g, b, rfPart(yEnd) * xGap * opacity);
+		drawPoint(xPixel1, yPixel1 + 1, r, g, b, fPart(yEnd) * xGap * opacity);
 	}
 
 	double yIntersection = yEnd + gradient;
@@ -83,26 +86,26 @@ void Window::drawLine(double x0, double y0, double x1, double y1, Uint8 r, Uint8
 
 	if (steep)
 	{
-		drawPoint(yPixel2, xPixel2, r, g, b, rfPart(yEnd) * xGap * brightness);
-		drawPoint(yPixel2 + 1, xPixel2, r, g, b, fPart(yEnd) * xGap * brightness);
+		drawPoint(yPixel2, xPixel2, r, g, b, rfPart(yEnd) * xGap * opacity);
+		drawPoint(yPixel2 + 1, xPixel2, r, g, b, fPart(yEnd) * xGap * opacity);
 
 		for (int x = xPixel1 + 1; x <= (xPixel2 - 1); x++)
 		{
-			drawPoint(yIntersection, x, r, g, b, rfPart(yIntersection) * brightness);
-			drawPoint(yIntersection + 1, x, r, g, b, fPart(yIntersection) * brightness);
+			drawPoint(yIntersection, x, r, g, b, rfPart(yIntersection) * opacity);
+			drawPoint(yIntersection + 1, x, r, g, b, fPart(yIntersection) * opacity);
 			yIntersection += gradient;
 		}
 	}
 
 	else
 	{
-		drawPoint(xPixel2, yPixel2, r, g, b, rfPart(yEnd) * xGap * brightness);
-		drawPoint(xPixel2, yPixel2 + 1, r, g, b, fPart(yEnd) * xGap * brightness);
+		drawPoint(xPixel2, yPixel2, r, g, b, rfPart(yEnd) * xGap * opacity);
+		drawPoint(xPixel2, yPixel2 + 1, r, g, b, fPart(yEnd) * xGap * opacity);
 
 		for (int x = xPixel1 + 1; x <= (xPixel2 - 1); x++)
 		{
-			drawPoint(x, yIntersection, r, g, b, rfPart(yIntersection) * brightness);
-			drawPoint(x, yIntersection + 1, r, g, b, fPart(yIntersection) * brightness);
+			drawPoint(x, yIntersection, r, g, b, rfPart(yIntersection) * opacity);
+			drawPoint(x, yIntersection + 1, r, g, b, fPart(yIntersection) * opacity);
 			yIntersection += gradient;
 		}
 	}
