@@ -30,10 +30,10 @@ int main(int argc, char** argv)
 		mainClock.tick();
 		handleInput();
 
-		window.clear(0x11, 0x11, 0x11);
+		window.clear();
 
-		window.drawLine(Utils::toPixels({ 0, -100 }) - camera, Utils::toPixels({ 0, 100 }) - camera, 255, 255, 255, 0.2);
-		window.drawLine(Utils::toPixels({ -100, 0 }) - camera, Utils::toPixels({ 100, 0 }) - camera, 255, 255, 255, 0.2);
+		window.drawLine(Utils::toPixels({ 0, -100 }) - camera, Utils::toPixels({ 0, 100 }) - camera, 0, 0, 0, 0.2);
+		window.drawLine(Utils::toPixels({ -100, 0 }) - camera, Utils::toPixels({ 100, 0 }) - camera, 0, 0, 0, 0.2);
 
 		Vector test1 = Vector({ -6, 7 }, { 3, 3 });
 		Vector test2 = Vector({ -2, -2 }, { 5, 10 });
