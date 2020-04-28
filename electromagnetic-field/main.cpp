@@ -32,9 +32,11 @@ int main(int argc, char** argv)
 
 		window.clear(0x11, 0x11, 0x11);
 
+		//Axis
 		window.drawLine(Utils::toPixels({ 0, -100 }) - camera, Utils::toPixels({ 0, 100 }) - camera, 255, 255, 255, 0.2);
 		window.drawLine(Utils::toPixels({ -100, 0 }) - camera, Utils::toPixels({ 100, 0 }) - camera, 255, 255, 255, 0.2);
 
+		//Vectors
 		Vector test1 = Vector({ -6, 7 }, { 3, 3 });
 		Vector test2 = Vector({ -2, -2 }, { 5, 10 });
 		Vector test3 = Vector({ 11, 2 }, { 15, 1 });
