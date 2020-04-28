@@ -32,6 +32,7 @@ int main(int argc, char** argv)
 
 		window.clear();
 
+		//Axes
 		window.drawLine(Utils::toPixels({ 0, -100 }) - camera, Utils::toPixels({ 0, 100 }) - camera, 0, 0, 0, 0.2);
 		window.drawLine(Utils::toPixels({ -100, 0 }) - camera, Utils::toPixels({ 100, 0 }) - camera, 0, 0, 0, 0.2);
 
@@ -54,7 +55,7 @@ int main(int argc, char** argv)
 		window.drawVector(test2, 155, 0, 55, 0.5);
 		window.drawVector(test3, 0, 255, 255, 0.21);
 		window.drawVector(test4, 255, 0, 255, 0.75);
-		
+
 		window.render();
 	}
 
