@@ -29,9 +29,9 @@ void Window::drawLine(Utils::Vector2 point1, Utils::Vector2 point2, Uint8 r, Uin
 
 void Window::drawVector(Vector vector, Uint8 r, Uint8 g, Uint8 b, double brightness)
 {
-	drawLine(toPixels(vector.head), toPixels(vector.tail), 255, 0, 0);
-	drawLine(toPixels(vector.arrowPoint1 + vector.head), toPixels(vector.head), 255, 0, 0);
-	drawLine(toPixels(vector.arrowPoint2 + vector.head), toPixels(vector.head), 255, 0, 0);
+	drawLine(toPixels(vector.head), toPixels(vector.tail), r, g, b, brightness);
+	drawLine(toPixels(vector.arrowPoint1 + vector.head), toPixels(vector.head), r, g, b, brightness);
+	drawLine(toPixels(vector.arrowPoint2 + vector.head), toPixels(vector.head), r, g, b, brightness);
 }
 
 void Window::drawLine(double x0, double y0, double x1, double y1, Uint8 r, Uint8 g, Uint8 b, double brightness)
