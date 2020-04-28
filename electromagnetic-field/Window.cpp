@@ -31,9 +31,9 @@ void Window::drawVector(Vector vector, Uint8 r, Uint8 g, Uint8 b, double opacity
 {
 	if (vector.isValid)
 	{
-		drawLine(toPixels(vector.head), toPixels(vector.tail), r, g, b, opacity);
-		drawLine(toPixels(vector.arrowPoint1 + vector.head), toPixels(vector.head), r, g, b, opacity);
-		drawLine(toPixels(vector.arrowPoint2 + vector.head), toPixels(vector.head), r, g, b, opacity);
+		drawLine(Utils::toPixels(vector.head), Utils::toPixels(vector.tail), r, g, b, opacity);
+		drawLine(Utils::toPixels(vector.arrowPoint1 + vector.head), Utils::toPixels(vector.head), r, g, b, opacity);
+		drawLine(Utils::toPixels(vector.arrowPoint2 + vector.head), Utils::toPixels(vector.head), r, g, b, opacity);
 	}
 }
 
@@ -115,40 +115,3 @@ void Window::render()
 {
 	SDL_RenderPresent(renderer);
 }
-
-
-Utils::Vector2 Window::toCoords(Utils::Vector2 pixels) 
-{ 
-	return { pixels.x / 20, -pixels.y / 20 }; 
-}
-
-Utils::Vector2 Window::toPixels(Utils::Vector2 coords) 
-{ 
-	return { coords.x * 20, -coords.y * 20 }; 
-}
-
-/*
-Utils::Vector2 Window::conversionToCoordinates(Utils::Vector2 pixelCoordinates, Utils::DomainAndRange domainAndRange) 
-{
-	return (Utils::Vector2{ ((domainAndRange.x.y - domainAndRange.x.x) * (2 * pixelCoordinates.x - _width)) / (2 * _width), ((domainAndRange.y.y - domainAndRange.y.x) * (2 * pixelCoordinates.y + _height)) / (2 * _height)});
-}
-
-Utils::Vector2 Window::conversionToPixels(Utils::Vector2 cartesianCoordinates, Utils::DomainAndRange domainAndRange)
-{
-	return (Utils::Vector2{ ((2*_width*cartesianCoordinates.x /(domainAndRange.x.y - domainAndRange.x.x) + _width)/2) ,  ((2*_height*cartesianCoordinates.y /(domainAndRange.y.y - domainAndRange.y.x) - _height)/2)  });
-}
-
-
-//Window size is X,Y
-//User will input the domain and range along with camera offset and vector density
-//We need to make a function that converts coordinates to pixels and pixels to coordinates.
-
-//Convert coordinates to pixel coordinates.
-
-
-
-// F_x(x,y)=2x+2y
-// F_y(x,y)=xy
-
-//Example (1,1) The vector will start at (1,1) and end at (5,2)
-//Let input be V, and the resulting vector is R, |R-V|<=c */

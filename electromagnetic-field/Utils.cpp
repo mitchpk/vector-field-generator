@@ -164,4 +164,40 @@ namespace Utils
 	{
 		return std::sqrt(x * x + y * y);
 	}
+
+	Vector2 getMousePos()
+	{
+		int mouseX, mouseY;
+		SDL_GetMouseState(&mouseX, &mouseY);
+		return { (float)mouseX, (float)mouseY };
+	}
+
+	Vector2 toCoords(Vector2 pixels) { return { pixels.x / 20, -pixels.y / 20 }; }
+	Vector2 toPixels(Vector2 coords) { return { coords.x * 20, -coords.y * 20 }; }
 }
+
+/*
+Vector2 Window::conversionToCoordinates(Vector2 pixelCoordinates, DomainAndRange domainAndRange)
+{
+	return { ((domainAndRange.x.y - domainAndRange.x.x) * (2 * pixelCoordinates.x - _width)) / (2 * _width), ((domainAndRange.y.y - domainAndRange.y.x) * (2 * pixelCoordinates.y + _height)) / (2 * _height)};
+}
+
+Vector2 Window::conversionToPixels(Vector2 cartesianCoordinates, DomainAndRange domainAndRange)
+{
+	return { ((2*_width*cartesianCoordinates.x /(domainAndRange.x.y - domainAndRange.x.x) + _width)/2) ,  ((2*_height*cartesianCoordinates.y /(domainAndRange.y.y - domainAndRange.y.x) - _height)/2)  };
+}
+
+
+//Window size is X,Y
+//User will input the domain and range along with camera offset and vector density
+//We need to make a function that converts coordinates to pixels and pixels to coordinates.
+
+//Convert coordinates to pixel coordinates.
+
+
+
+// F_x(x,y)=2x+2y
+// F_y(x,y)=xy
+
+//Example (1,1) The vector will start at (1,1) and end at (5,2)
+//Let input be V, and the resulting vector is R, |R-V|<=c */
