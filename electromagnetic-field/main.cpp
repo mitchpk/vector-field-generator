@@ -1,33 +1,79 @@
 #include "Utils.h"
-#include "Drawing.h"
+#include "Window.h"
+#include <iostream>
+#include <cmath>
+#include <time.h>
 
 const int SCREEN_WIDTH = 1024;
 const int SCREEN_HEIGHT = 720;
+SDL_Event e;
+bool quit = false;
+
+Utils::Vector2 camera = { -SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2 }; // Start in the middle of the cartesian plane
+Utils::Clock mainClock;
+
+Window window;
+
+void handleInput();
 
 int main(int argc, char** argv)
 {
+	srand(time(NULL));
 	SDL_Init(SDL_INIT_EVERYTHING);
-	SDL_Renderer* renderer = Utils::createWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Electromagnetic Vector Field");
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Vector Field");
 
-	SDL_Event e;
-	bool quit = false;
-	while (!quit && SDL_WaitEvent(&e))
+	while (!quit)
 	{
-		if (e.type == SDL_QUIT)
-		{
-			quit = true;
-		}
+		mainClock.tick();
+		handleInput();
 
-		Drawing::clear(renderer);
+		window.clear();
 
-		Drawing::line(renderer, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 4 * 3, SCREEN_HEIGHT / 4 * 3, 255, 0, 0, 0.5);
-		Drawing::line(renderer, SCREEN_WIDTH / 4 * 3, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4 * 3, 0, 0, 255, 0.5);
+		window.drawLine(window.toPixels({ 0, -100 }) - camera, window.toPixels({ 0, 100 }) - camera, 0, 0, 0);
+		window.drawLine(window.toPixels({ -100, 0 }) - camera, window.toPixels({ 100, 0 }) - camera, 0, 0, 0);
 
-		SDL_RenderPresent(renderer);
+		Vector test = Vector({ -6, 7 }, { 3, 3 }, -1);
+		test.head -= window.toCoords(camera);
+		test.tail -= window.toCoords(camera);
+		window.drawVector(test, 0, 255, 255);
+
+		window.render();
 	}
 
 	SDL_Quit();
 
 	return 0;
+}
+
+void handleInput()
+{
+	const Uint8* keystate = SDL_GetKeyboardState(NULL);
+
+	if (keystate[SDL_SCANCODE_UP])
+	{
+		camera.y -= 500 * mainClock.delta;
+	}
+
+	if (keystate[SDL_SCANCODE_DOWN])
+	{
+		camera.y += 500 * mainClock.delta;
+	}
+
+	if (keystate[SDL_SCANCODE_LEFT])
+	{
+		camera.x -= 500 * mainClock.delta;
+	}
+
+	if (keystate[SDL_SCANCODE_RIGHT])
+	{
+		camera.x += 500 * mainClock.delta;
+	}
+
+	while (SDL_PollEvent(&e) != 0)
+	{
+		if (e.type == SDL_QUIT)
+		{
+			quit = true;
+		}
+	}
 }
