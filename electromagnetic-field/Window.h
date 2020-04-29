@@ -23,6 +23,7 @@ public:
 	void drawPoint(int x, int y, Uint8 r, Uint8 g, Uint8 b, double opacity = 1);
 	void drawLine(Utils::Vector2 point1, Utils::Vector2 point2, Uint8 r, Uint8 g, Uint8 b, double opacity = 1);
 	void drawVector(Vector vector, Uint8 r, Uint8 g, Uint8 b, double opacity = 1);
+	void printText(std::string messageText, Utils::Vector2 pos, TTF_Font* font, SDL_Color color);
 
 	void render();
 };

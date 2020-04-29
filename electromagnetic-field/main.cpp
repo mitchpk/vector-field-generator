@@ -53,6 +53,10 @@ int main(int argc, char** argv)
 		window.drawVector(test3 - Utils::toCoords(camera), 255, 0, 0);
 		window.drawVector(test4 - Utils::toCoords(camera), 255, 0, 255);
 
+
+		TTF_Font* arial25 = TTF_OpenFont("arial.ttf", 25);
+		window.printText("Hello", { 100, 100 }, arial25, { 255, 255, 0 });
+
 		window.render();
 	}
 
