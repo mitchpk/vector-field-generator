@@ -33,6 +33,13 @@ int main(int argc, char** argv)
 	Vector test3 = Vector({ 11, 2 }, { 15, 1 });
 	Vector test4 = Vector({ 2, 2 }, { -3, 8 });
 
+	//Drawing a button
+
+	Utils::Vector2 pos, size;
+	pos = { 10, 200 };
+	size = { 120, 60 };
+	SDL_Rect button = {  pos.x, pos.y, size.x, size.y  };
+
 	while (!quit)
 	{
 		mainClock.tick();
@@ -57,7 +64,13 @@ int main(int argc, char** argv)
 		TTF_Font* arial25 = TTF_OpenFont("fonts/Roboto-Regular.ttf", 18);
 		window.printText("Hello", { 10, 10 }, arial25, { 50, 50, 50 });
 
+		SDL_RenderDrawRectF()
+
 		window.render();
+
+
+
+
 	}
 
 	SDL_Quit();
