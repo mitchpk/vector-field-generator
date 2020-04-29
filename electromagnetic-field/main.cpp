@@ -11,6 +11,7 @@ bool quit = false;
 bool moving = false;
 
 Utils::Vector2 camera = { -SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2 }; // Start in the middle of the cartesian plane
+float cameraSpeed = 500; // in pixels per second
 Utils::Vector2 lastCamera;
 Utils::Vector2 mouse;
 Utils::Clock mainClock;
@@ -40,7 +41,7 @@ int main(int argc, char** argv)
 		Vector test1 = Vector({ -6, 7 }, { 3, 3 });
 		Vector test2 = Vector({ -2, -2 }, { 5, 10 });
 		Vector test3 = Vector({ 11, 2 }, { 15, 1 });
-		Vector test4 = Vector({ 2, 2 }, { 2, 5 });
+		Vector test4 = Vector({ 2, 2 }, { -3, 8 });
 
 		test1.head -= Utils::toCoords(camera);
 		test1.tail -= Utils::toCoords(camera);
@@ -53,7 +54,7 @@ int main(int argc, char** argv)
 
 		window.drawVector(test1, 0, 255, 255);
 		window.drawVector(test2, 155, 0, 55, 0.5);
-		window.drawVector(test3, 0, 255, 255, 0.21);
+		window.drawVector(test3, 255, 0, 0, 0.21);
 		window.drawVector(test4, 255, 0, 255, 0.75);
 
 		window.render();
@@ -70,22 +71,22 @@ void handleInput()
 
 	if (keystate[SDL_SCANCODE_UP])
 	{
-		camera.y -= 500 * mainClock.delta;
+		camera.y -= roundf(cameraSpeed * mainClock.delta);
 	}
 
 	if (keystate[SDL_SCANCODE_DOWN])
 	{
-		camera.y += 500 * mainClock.delta;
+		camera.y += roundf(cameraSpeed * mainClock.delta);
 	}
 
 	if (keystate[SDL_SCANCODE_LEFT])
 	{
-		camera.x -= 500 * mainClock.delta;
+		camera.x -= roundf(cameraSpeed * mainClock.delta);
 	}
 
 	if (keystate[SDL_SCANCODE_RIGHT])
 	{
-		camera.x += 500 * mainClock.delta;
+		camera.x += roundf(cameraSpeed * mainClock.delta);
 	}
 
 	while (SDL_PollEvent(&e) != 0)

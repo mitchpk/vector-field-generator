@@ -19,7 +19,7 @@ public:
 			float length = 1, // Depending on the Vector type, will either control the scale, the exact length or the maximum length of the Vector
 			VectorType type = VectorType::scaled,
 			float arrowAngle = M_PI / 5.6f, 
-			float arrowLength = 1.8f );
+			float arrowLength = 1.0f );
 
 	Utils::Vector2 tail;
 	Utils::Vector2 head;
