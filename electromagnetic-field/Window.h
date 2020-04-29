@@ -20,7 +20,6 @@ public:
 
 	void clear(Uint8 r = 245, Uint8 g = 245, Uint8 b = 245);
 	void drawPoint(int x, int y, Uint8 r, Uint8 g, Uint8 b, double opacity = 1);
-	void drawLine(double x0, double y0, double x1, double y1, Uint8 r, Uint8 g, Uint8 b, double opacity = 1);
 	void drawLine(Utils::Vector2 point1, Utils::Vector2 point2, Uint8 r, Uint8 g, Uint8 b, double opacity = 1);
 	void drawVector(Vector vector, Uint8 r, Uint8 g, Uint8 b, double opacity = 1);
 
