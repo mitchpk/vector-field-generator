@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Vector Field");
 
 	//Vectors
-	Vector test1 = Vector({ -6, 7 }, { 3, 3 });
+	Vector test1 = Vector({ -6, 7 }, { 3, 3 }, 10000, VectorType::constrained);
 	Vector test2 = Vector({ -2, -2 }, { 5, 10 });
 	Vector test3 = Vector({ 11, 2 }, { 15, 1 });
 	Vector test4 = Vector({ 2, 2 }, { -3, 8 });
@@ -43,14 +43,14 @@ int main(int argc, char** argv)
 		window.drawLine(Utils::toPixels({ 0, -10000 }) - camera, Utils::toPixels({ 0, 10000 }) - camera, 0, 0, 0, 0.2);
 		window.drawLine(Utils::toPixels({ -10000, 0 }) - camera, Utils::toPixels({ 10000, 0 }) - camera, 0, 0, 0, 0.2);
 
-		test1.length += 0.1 * mainClock.delta;
-		test1.arrowLength += M_PI/12 * mainClock.delta;
-		test1.generate();
+		//test1.length += 0.1 * mainClock.delta;
+		//test1.arrowLength += M_PI/12 * mainClock.delta;
+		//test1.generate();
 
 		window.drawVector(test1 - Utils::toCoords(camera), 0, 255, 255);
-		window.drawVector(test2 - Utils::toCoords(camera), 155, 0, 55, 0.5);
-		window.drawVector(test3 - Utils::toCoords(camera), 255, 0, 0, 0.21);
-		window.drawVector(test4 - Utils::toCoords(camera), 255, 0, 255, 0.75);
+		window.drawVector(test2 - Utils::toCoords(camera), 155, 0, 55);
+		window.drawVector(test3 - Utils::toCoords(camera), 255, 0, 0);
+		window.drawVector(test4 - Utils::toCoords(camera), 255, 0, 255);
 
 		window.render();
 	}

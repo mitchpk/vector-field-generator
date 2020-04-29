@@ -26,9 +26,9 @@ void Vector::generate()
 			break;
 		case VectorType::constrained:
 			if ((head - tail).length() > length)
-			{
 				calculatedHead = (head - tail).normalised() * length + tail;
-			}
+			else
+				calculatedHead = head;
 			break;
 		}
 	}
