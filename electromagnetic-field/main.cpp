@@ -1,5 +1,6 @@
 #include "Utils.h"
 #include "Window.h"
+#include "Button.h"
 #include <iostream>
 #include <cmath>
 #include <time.h>
@@ -34,11 +35,9 @@ int main(int argc, char** argv)
 	Vector test4 = Vector({ 2, 2 }, { -3, 8 });
 
 	//Drawing a button
-
-	Utils::Vector2 pos, size;
-	pos = { 10, 200 };
-	size = { 120, 60 };
-	SDL_Rect button = {  pos.x, pos.y, size.x, size.y  };
+	Utils::Vector2 pos = { 10, 200 };
+	Utils::Vector2 size = { 120, 60 };
+	Button testbutton = Button(pos, size);
 
 	while (!quit)
 	{
@@ -63,9 +62,7 @@ int main(int argc, char** argv)
 		//Sample text rendering
 		TTF_Font* arial25 = TTF_OpenFont("fonts/Roboto-Regular.ttf", 18);
 		window.printText("Hello", { 10, 10 }, arial25, { 50, 50, 50 });
-
-		SDL_RenderDrawRectF()
-
+		window.drawButton(testbutton, 50, 50, 50);
 		window.render();
 	}
 
