@@ -67,10 +67,6 @@ int main(int argc, char** argv)
 		SDL_RenderDrawRectF()
 
 		window.render();
-
-
-
-
 	}
 
 	SDL_Quit();
