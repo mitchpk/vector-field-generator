@@ -47,11 +47,9 @@ void Window::drawButton(Button button, Uint8 r, Uint8 g, Uint8 b, double opacity
 }
 
 void Window::printText(std::string messageText, Utils::Vector2 pos, TTF_Font* font, SDL_Color color) {
-	int texW = 0, texH = 0;
 	SDL_Surface* surface = TTF_RenderText_Blended(font, messageText.c_str(), color);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	SDL_Rect dstrect = { pos.x, pos.y, texW, texH };
+	SDL_Rect dstrect = { pos.x, pos.y, surface->w, surface->h };
 	SDL_RenderCopy(renderer, texture, NULL, &dstrect);
 }
 

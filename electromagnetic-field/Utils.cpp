@@ -11,9 +11,10 @@ namespace Utils
 
 	void Clock::tick()
 	{
-		Uint32 tick_time = SDL_GetTicks();
-		delta = (tick_time - last_tick_time) / 1000.0f;
 		last_tick_time = tick_time;
+		tick_time = SDL_GetPerformanceCounter();
+
+		delta = (double)((tick_time - last_tick_time) / (double)SDL_GetPerformanceFrequency());
 	}
 
 	// Vector3

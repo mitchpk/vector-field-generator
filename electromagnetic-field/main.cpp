@@ -38,6 +38,10 @@ int main(int argc, char** argv)
 	Utils::Vector2 size = { 120, 60 };
 	Button testbutton = Button(pos, size);
 
+	TTF_Font* lato = TTF_OpenFont("fonts/Lato/Lato-Regular.ttf", 18);
+	int seconds = 0;
+	int fps = 0;
+
 	while (!quit)
 	{
 		mainClock.tick();
@@ -58,9 +62,11 @@ int main(int argc, char** argv)
 		window.drawVector(test3 - Utils::toCoords(camera), 255, 0, 0);
 		window.drawVector(test4 - Utils::toCoords(camera), 255, 0, 255);
 
+		fps = 1 / mainClock.delta;
+
 		//Sample text rendering
-		TTF_Font* lato = TTF_OpenFont("fonts/Lato/Lato-Regular.ttf", 18);
-		window.printText("Hello", { 10, 10 }, lato, { 50, 50, 50 });
+		window.printText(std::to_string(fps) + " FPS", { 10, 10 }, lato, { 50, 50, 50 });
+		
 		window.drawButton(testbutton, 50, 50, 50);
 		window.render();
 	}

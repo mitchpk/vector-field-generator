@@ -68,8 +68,9 @@ namespace Utils
 
     struct Clock
     {
-        Uint32 last_tick_time = 0;
-        float delta = 0;
+		Uint64 tick_time = SDL_GetPerformanceCounter();
+        Uint64 last_tick_time = 0;
+        double delta = 0;
 
         void tick();
     };
