@@ -26,8 +26,8 @@ int main(int argc, char** argv)
 	srand(time(NULL));
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
-	window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Vector Field");
-
+	window.create(SCREEN_WIDTH, SCREEN_HEIGHT, "Vector Field");
+	
 	//Vectors
 	Vector test1 = Vector({ -6, 7 }, { 3, 3 });
 	Vector test2 = Vector({ -2, -2 }, { 5, 10 });
