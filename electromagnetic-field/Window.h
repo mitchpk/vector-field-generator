@@ -5,16 +5,14 @@
 #include "Vector.h"
 #include "Button.h"
 
-class Window
+struct Window
 {
-private:
-	int _width, _height;
+	int width, height;
 
-public:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 
-	Window(int width = 1024, int height = 720, const char* title = "title");
+	void create(int width = 1024, int height = 720, const char* title = "title");
 
 	//Drawing
 	double inline fPart(double x) { return x - floor(x); }

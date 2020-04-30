@@ -5,13 +5,12 @@
 #include <cmath>
 #include <time.h>
 
-const int SCREEN_WIDTH = 1024;
-const int SCREEN_HEIGHT = 600;
+Utils::Vector2 screen = { 1024, 600 };
 SDL_Event e;
 bool quit = false;
 bool moving = false;
 
-Utils::Vector2 camera = { -SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2 }; // Start in the middle of the cartesian plane
+Utils::Vector2 camera = { -screen.x / 2, -screen.y / 2 }; // Start in the middle of the cartesian plane
 float cameraSpeed = 500; // in pixels per second
 Utils::Vector2 lastCamera;
 Utils::Vector2 mouse;
@@ -26,8 +25,8 @@ int main(int argc, char** argv)
 	srand(time(NULL));
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
-	window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Vector Field");
-
+	window.create(screen.x, screen.y, "Vector Field");
+	
 	//Vectors
 	Vector test1 = Vector({ -6, 7 }, { 3, 3 });
 	Vector test2 = Vector({ -2, -2 }, { 5, 10 });
@@ -47,8 +46,8 @@ int main(int argc, char** argv)
 		window.clear();
 
 		//Axes
-		window.drawLine({ 0, -camera.y }, { SCREEN_WIDTH, -camera.y }, 0, 0, 0, 0.2);
-		window.drawLine({ -camera.x, 0 }, { -camera.x, SCREEN_HEIGHT }, 0, 0, 0, 0.2);
+		window.drawLine({ 0, -camera.y }, { screen.x, -camera.y }, 0, 0, 0, 0.2);
+		window.drawLine({ -camera.x, 0 }, { -camera.x, screen.y }, 0, 0, 0, 0.2);
 
 		test1.length += 0.1 * mainClock.delta;
 		test1.arrowLength += M_PI/12 * mainClock.delta;
@@ -60,8 +59,8 @@ int main(int argc, char** argv)
 		window.drawVector(test4 - Utils::toCoords(camera), 255, 0, 255);
 
 		//Sample text rendering
-		TTF_Font* arial25 = TTF_OpenFont("fonts/Roboto-Regular.ttf", 18);
-		window.printText("Hello", { 10, 10 }, arial25, { 50, 50, 50 });
+		TTF_Font* lato = TTF_OpenFont("fonts/Lato/Lato-Regular.ttf", 18);
+		window.printText("Hello", { 10, 10 }, lato, { 50, 50, 50 });
 		window.drawButton(testbutton, 50, 50, 50);
 		window.render();
 	}
@@ -128,6 +127,15 @@ void handleInput()
 				camera.y = -delta.y + lastCamera.y;
 			}
 			break;
+		case SDL_WINDOWEVENT:
+			switch (e.window.event)
+			{
+			case SDL_WINDOWEVENT_RESIZED:
+				Utils::Vector2 newSize = { (float)e.window.data1, (float)e.window.data2 };
+				camera -= (newSize - screen) / 2;
+				screen = newSize;
+				break;
+			}
 		}
 	}
 }
