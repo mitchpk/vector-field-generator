@@ -6,7 +6,7 @@ Window::Window(int width, int height, const char* title) : _width(width), _heigh
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
 	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
-	renderer = SDL_CreateRenderer(window, SDL_VIDEO_RENDER_OGL, SDL_RENDERER_ACCELERATED);
+	renderer = SDL_CreateRenderer(window, SDL_VIDEO_RENDER_OGL, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }
 
