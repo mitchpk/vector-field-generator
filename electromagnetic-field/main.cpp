@@ -157,6 +157,16 @@ void handleInput()
 				cameraPos.y = -delta.y + lastCamera.y;
 			}
 			break;
+		case SDL_MOUSEWHEEL:
+			if (e.wheel.y > 0) // scroll up
+			{
+				cameraScale *= 1.2;
+			}
+			else if (e.wheel.y < 0) // scroll down
+			{
+				cameraScale /= 1.2;
+			}
+			break;
 		case SDL_WINDOWEVENT:
 			switch (e.window.event)
 			{
