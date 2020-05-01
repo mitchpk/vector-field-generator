@@ -126,6 +126,8 @@ void handleInput()
 
 	while (SDL_PollEvent(&e) != 0)
 	{
+		GUI::handleInput(e);
+
 		switch (e.type)
 		{
 		case SDL_QUIT:
@@ -135,10 +137,13 @@ void handleInput()
 			switch (e.button.button)
 			{
 			case SDL_BUTTON_LEFT:
-				mouse = Utils::getMousePos();
-				lastCamera = cameraPos;
-				moving = true;
-				break;
+				if (!GUI::uiState.hovering)
+				{
+					mouse = Utils::getMousePos();
+					lastCamera = cameraPos;
+					moving = true;
+					break;
+				}
 			}
 			break;
 		case SDL_MOUSEBUTTONUP:
@@ -152,9 +157,12 @@ void handleInput()
 		case SDL_MOUSEMOTION:
 			if (moving)
 			{
-				Utils::Vector2 delta = Utils::getMousePos() - mouse;
-				cameraPos.x = -delta.x + lastCamera.x;
-				cameraPos.y = -delta.y + lastCamera.y;
+				if (!GUI::uiState.hovering)
+				{
+					Utils::Vector2 delta = Utils::getMousePos() - mouse;
+					cameraPos.x = -delta.x + lastCamera.x;
+					cameraPos.y = -delta.y + lastCamera.y;
+				}
 			}
 			break;
 		case SDL_MOUSEWHEEL:
@@ -177,7 +185,5 @@ void handleInput()
 				break;
 			}
 		}
-
-		GUI::handleInput(e);
 	}
 }

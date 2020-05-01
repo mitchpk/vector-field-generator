@@ -34,6 +34,7 @@ namespace GUI
 		int hotControl;
 		int activeControl;
 		bool contextMenu;
+		bool hovering;
 
 		int contextMenuX;
 		int contextMenuY;
@@ -57,12 +58,16 @@ namespace GUI
 		case SDL_MOUSEMOTION:
 			uiState.mouseX = e.motion.x;
 			uiState.mouseY = e.motion.y;
+			if (uiState.hotControl > 0 && uiState.leftMouseDown)
+				uiState.hovering = true;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			switch (e.button.button)
 			{
 			case SDL_BUTTON_LEFT:
 				uiState.leftMouseDown = true;
+				if (uiState.hotControl > 0)
+					uiState.hovering = true;
 				break;
 			case SDL_BUTTON_RIGHT:
 				uiState.rightMouseDown = true;
@@ -74,6 +79,7 @@ namespace GUI
 			{
 			case SDL_BUTTON_LEFT:
 				uiState.leftMouseDown = false;
+				uiState.hovering = false;
 				break;
 			case SDL_BUTTON_RIGHT:
 				uiState.rightMouseDown = false;
