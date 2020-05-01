@@ -1,6 +1,6 @@
 #include "Utils.h"
 #include "Window.h"
-#include "Button.h"
+#include "GUI.h"
 #include <iostream>
 #include <cmath>
 #include <time.h>
@@ -10,7 +10,8 @@ SDL_Event e;
 bool quit = false;
 bool moving = false;
 
-Utils::Vector2 camera = { -screen.x / 2, -screen.y / 2 }; // Start in the middle of the cartesian plane
+Utils::Vector2 cameraPos = { -screen.x / 2, -screen.y / 2 }; // Start in the middle of the cartesian plane
+float cameraScale = 1;
 float cameraSpeed = 500; // in pixels per second
 Utils::Vector2 lastCamera;
 Utils::Vector2 mouse;
@@ -26,6 +27,8 @@ int main(int argc, char** argv)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
 	window.create(screen.x, screen.y, "Vector Field");
+
+	GUI::setup(window.renderer);
 	
 	//Vectors
 	Vector test1 = Vector({ -6, 7 }, { 3, 3 });
@@ -33,12 +36,9 @@ int main(int argc, char** argv)
 	Vector test3 = Vector({ 11, 2 }, { 15, 1 });
 	Vector test4 = Vector({ 2, 2 }, { -3, 8 });
 
-	//Drawing a button
-	Utils::Vector2 pos = { 10, 200 };
-	Utils::Vector2 size = { 120, 60 };
-	Button testbutton = Button(pos, size);
+	TTF_Font* robotoBig = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 18);
+	TTF_Font* roboto = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 13);
 
-	TTF_Font* lato = TTF_OpenFont("fonts/Lato/Lato-Regular.ttf", 18);
 	int seconds = 0;
 	int fps = 0;
 
@@ -50,24 +50,48 @@ int main(int argc, char** argv)
 		window.clear();
 
 		//Axes
-		window.drawLine({ 0, -camera.y }, { screen.x, -camera.y }, 0, 0, 0, 0.2);
-		window.drawLine({ -camera.x, 0 }, { -camera.x, screen.y }, 0, 0, 0, 0.2);
+		window.drawLine({ 0, -cameraPos.y }, { screen.x, -cameraPos.y }, 0, 0, 0, 0.2);
+		window.drawLine({ -cameraPos.x, 0 }, { -cameraPos.x, screen.y }, 0, 0, 0, 0.2);
 
 		test1.length += 0.1 * mainClock.delta;
 		test1.arrowLength += M_PI/12 * mainClock.delta;
 		test1.generate();
 
-		window.drawVector(test1 - Utils::toCoords(camera), 0, 255, 255);
-		window.drawVector(test2 - Utils::toCoords(camera), 155, 0, 55);
-		window.drawVector(test3 - Utils::toCoords(camera), 255, 0, 0);
-		window.drawVector(test4 - Utils::toCoords(camera), 255, 0, 255);
+		window.drawVector(test1 * cameraScale - Utils::toCoords(cameraPos), 0, 255, 255);
+		window.drawVector(test2 * cameraScale - Utils::toCoords(cameraPos), 155, 0, 55);
+		window.drawVector(test3 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 0);
+		window.drawVector(test4 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
 
 		fps = 1 / mainClock.delta;
 
 		//Sample text rendering
-		window.printText(std::to_string(fps) + " FPS", { 10, 10 }, lato, { 50, 50, 50 });
+		GUI::begin();
+
+		if (GUI::button(GEN_ID, 10, 10, 70, 20, "Zoom In", roboto))
+		{
+			cameraScale *= 1.2;
+		}
+
+		if (GUI::button(GEN_ID, 10, 40, 70, 20, "Zoom Out", roboto))
+		{
+			cameraScale /= 1.2;
+		}
+
+		GUI::beginContextMenu(120, 2);
+
+		if (GUI::contextMenuItem(GEN_ID, "Add Vector", roboto))
+		{
+			printf("Added Vector\n");
+		}
+		if (GUI::contextMenuItem(GEN_ID, "Add Pole", roboto))
+		{
+			printf("Added Pole\n");
+		}
+
+		GUI::endContextMenu();
+
+		GUI::end();
 		
-		window.drawButton(testbutton, 50, 50, 50);
 		window.render();
 	}
 
@@ -82,22 +106,22 @@ void handleInput()
 
 	if (keystate[SDL_SCANCODE_UP])
 	{
-		camera.y -= roundf(cameraSpeed * mainClock.delta);
+		cameraPos.y -= roundf(cameraSpeed * mainClock.delta);
 	}
 
 	if (keystate[SDL_SCANCODE_DOWN])
 	{
-		camera.y += roundf(cameraSpeed * mainClock.delta);
+		cameraPos.y += roundf(cameraSpeed * mainClock.delta);
 	}
 
 	if (keystate[SDL_SCANCODE_LEFT])
 	{
-		camera.x -= roundf(cameraSpeed * mainClock.delta);
+		cameraPos.x -= roundf(cameraSpeed * mainClock.delta);
 	}
 
 	if (keystate[SDL_SCANCODE_RIGHT])
 	{
-		camera.x += roundf(cameraSpeed * mainClock.delta);
+		cameraPos.x += roundf(cameraSpeed * mainClock.delta);
 	}
 
 	while (SDL_PollEvent(&e) != 0)
@@ -112,7 +136,7 @@ void handleInput()
 			{
 			case SDL_BUTTON_LEFT:
 				mouse = Utils::getMousePos();
-				lastCamera = camera;
+				lastCamera = cameraPos;
 				moving = true;
 				break;
 			}
@@ -129,8 +153,8 @@ void handleInput()
 			if (moving)
 			{
 				Utils::Vector2 delta = Utils::getMousePos() - mouse;
-				camera.x = -delta.x + lastCamera.x;
-				camera.y = -delta.y + lastCamera.y;
+				cameraPos.x = -delta.x + lastCamera.x;
+				cameraPos.y = -delta.y + lastCamera.y;
 			}
 			break;
 		case SDL_WINDOWEVENT:
@@ -138,10 +162,12 @@ void handleInput()
 			{
 			case SDL_WINDOWEVENT_RESIZED:
 				Utils::Vector2 newSize = { (float)e.window.data1, (float)e.window.data2 };
-				camera -= (newSize - screen) / 2;
+				cameraPos -= (newSize - screen) / 2;
 				screen = newSize;
 				break;
 			}
 		}
+
+		GUI::handleInput(e);
 	}
 }

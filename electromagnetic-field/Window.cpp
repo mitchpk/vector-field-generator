@@ -40,12 +40,6 @@ void Window::drawVector(Vector vector, Uint8 r, Uint8 g, Uint8 b, double opacity
 	}
 }
 
-void Window::drawButton(Button button, Uint8 r, Uint8 g, Uint8 b, double opacity)
-{
-	SDL_SetRenderDrawColor(renderer, r, g, b, opacity * 255);
-	SDL_RenderFillRect(renderer, &button.button);
-}
-
 void Window::printText(std::string messageText, Utils::Vector2 pos, TTF_Font* font, SDL_Color color) {
 	SDL_Surface* surface = TTF_RenderText_Blended(font, messageText.c_str(), color);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);

@@ -29,6 +29,28 @@ struct Vector
 		return temp;
 	}
 
+	Vector operator * (const float& f)
+	{
+		Vector temp = *this;
+		temp.tail *= f;
+		temp.head *= f;
+		temp.calculatedHead *= f;
+		temp.arrowPoint1 *= f;
+		temp.arrowPoint2 *= f;
+		return temp;
+	}
+
+	Vector operator / (const float& f)
+	{
+		Vector temp = *this;
+		temp.tail /= f;
+		temp.head /= f;
+		temp.calculatedHead /= f;
+		temp.arrowPoint1 /= f;
+		temp.arrowPoint2 /= f;
+		return temp;
+	}
+
 	Utils::Vector2 tail;
 	Utils::Vector2 head;
 	Utils::Vector2 calculatedHead;
