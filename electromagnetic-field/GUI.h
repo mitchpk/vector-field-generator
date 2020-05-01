@@ -34,7 +34,7 @@ namespace GUI
 		int hotControl;
 		int activeControl;
 		bool contextMenu;
-		bool hovering;
+		bool interacting;
 
 		int contextMenuX;
 		int contextMenuY;
@@ -59,7 +59,7 @@ namespace GUI
 			uiState.mouseX = e.motion.x;
 			uiState.mouseY = e.motion.y;
 			if (uiState.hotControl > 0 && uiState.leftMouseDown)
-				uiState.hovering = true;
+				uiState.interacting = true;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			switch (e.button.button)
@@ -67,7 +67,7 @@ namespace GUI
 			case SDL_BUTTON_LEFT:
 				uiState.leftMouseDown = true;
 				if (uiState.hotControl > 0)
-					uiState.hovering = true;
+					uiState.interacting = true;
 				break;
 			case SDL_BUTTON_RIGHT:
 				uiState.rightMouseDown = true;
@@ -79,7 +79,7 @@ namespace GUI
 			{
 			case SDL_BUTTON_LEFT:
 				uiState.leftMouseDown = false;
-				uiState.hovering = false;
+				uiState.interacting = false;
 				break;
 			case SDL_BUTTON_RIGHT:
 				uiState.rightMouseDown = false;
@@ -229,7 +229,7 @@ namespace GUI
 				int mousePos = uiState.mouseY - (y + boxHeight / 2);
 				if (mousePos < 0) mousePos = 0;
 				if (mousePos > h) mousePos = h;
-				int v = roundf((float)mousePos * max / h);
+				int v = (int)roundf((float)mousePos * max / h);
 				if (v != value)
 				{
 					value = v;
@@ -267,7 +267,7 @@ namespace GUI
 				int mousePos = uiState.mouseX - (x + boxWidth / 2);
 				if (mousePos < 0) mousePos = 0;
 				if (mousePos > w) mousePos = w;
-				int v = roundf((float)mousePos * max / w);
+				int v = (int)roundf((float)mousePos * max / w);
 				if (v != value)
 				{
 					value = v;
@@ -293,7 +293,7 @@ namespace GUI
 			int boxHeight = (height - 2) / 8;
 			int h = height - boxHeight;
 
-			int yPos = (h - 2) * value / max;
+			int yPos = (int)roundf((h - 2) * value / max);
 
 			drawFilledRect(x + 1, y + 1, width - 2, height - 2, Colours::BACKGROUND_DARK);
 			drawRect(x, y, width, height, Colours::BORDER);
@@ -331,7 +331,7 @@ namespace GUI
 			int boxWidth = (width - 2) / 8;
 			int w = width - boxWidth;
 
-			int xPos = (w - 2) * value / max;
+			int xPos = (int)roundf((w - 2) * value / max);
 
 			drawFilledRect(x + 1, y + 1, width - 2, height - 2, Colours::BACKGROUND_DARK);
 			drawRect(x, y, width, height, Colours::BORDER);

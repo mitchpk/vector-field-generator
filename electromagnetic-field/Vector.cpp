@@ -1,8 +1,8 @@
 #include "Vector.h"
 #include <cmath>
 
-Vector::Vector(Utils::Vector2 _tail, Utils::Vector2 _head, float _length, VectorType _type, float _arrowAngle, float _arrowLength) : 
-	head(_head), tail(_tail), length(_length), type(_type), arrowAngle(_arrowAngle), arrowLength(_arrowLength)
+Vector::Vector(Utils::Vector2 _tail, Utils::Vector2 _head, float _length, VectorType _type, float _arrowAngle, float _arrowProportion) : 
+	head(_head), tail(_tail), length(_length), type(_type), arrowAngle(_arrowAngle), arrowProportion(_arrowProportion)
 {	
 	generate();
 }
@@ -51,7 +51,7 @@ void Vector::calculateArrow()
 	};
 
 	arrowPoint1.normalise();
-	arrowPoint1 *= arrowLength;
+	arrowPoint1 *= (calculatedHead - tail).length() * arrowProportion;
 	arrowPoint2.normalise();
-	arrowPoint2 *= arrowLength;
+	arrowPoint2 *= (calculatedHead - tail).length() * arrowProportion;
 }

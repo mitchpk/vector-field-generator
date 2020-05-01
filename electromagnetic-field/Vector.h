@@ -15,7 +15,7 @@ struct Vector
 			float length = 1,
 			VectorType type = VectorType::scaled,
 			float arrowAngle = M_PI / 5.6f, 
-			float arrowLength = 1.0f );
+			float arrowProportion = 0.1f );
 
 	void generate();
 	void calculateArrow();
@@ -59,7 +59,7 @@ struct Vector
 	Utils::Vector2 arrowPoint1;
 	Utils::Vector2 arrowPoint2;
 	float arrowAngle;
-	float arrowLength;
+	float arrowProportion;
 
 	bool isValid = true;
 

@@ -68,14 +68,11 @@ namespace Utils
 
     struct Clock
     {
-		Uint64 tick_time = SDL_GetPerformanceCounter();
-        Uint64 last_tick_time = 0;
-        double delta = 0;
+        Uint64 lastTick = SDL_GetPerformanceCounter();
+        float delta;
 
         void tick();
     };
-
-	SDL_Renderer* createWindow(int width = 1024, int height = 720, const char* title = "title");
 
 	Vector2 getMousePos();
 	Vector2 toCoords(Vector2 pixels);

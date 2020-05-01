@@ -3,7 +3,6 @@
 #include "GUI.h"
 #include <iostream>
 #include <cmath>
-#include <time.h>
 
 Utils::Vector2 screen = { 1024, 600 };
 SDL_Event e;
@@ -13,8 +12,6 @@ bool moving = false;
 Utils::Vector2 cameraPos = { -screen.x / 2, -screen.y / 2 }; // Start in the middle of the cartesian plane
 float cameraScale = 1;
 float cameraSpeed = 500; // in pixels per second
-Utils::Vector2 lastCamera;
-Utils::Vector2 mouse;
 Utils::Clock mainClock;
 
 Window window;
@@ -23,7 +20,6 @@ void handleInput();
 
 int main(int argc, char** argv)
 {
-	srand(time(NULL));
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
 	window.create(screen.x, screen.y, "Vector Field");
@@ -39,9 +35,6 @@ int main(int argc, char** argv)
 	TTF_Font* robotoBig = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 18);
 	TTF_Font* roboto = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 13);
 
-	int seconds = 0;
-	int fps = 0;
-
 	while (!quit)
 	{
 		mainClock.tick();
@@ -53,8 +46,7 @@ int main(int argc, char** argv)
 		window.drawLine({ 0, -cameraPos.y }, { screen.x, -cameraPos.y }, 0, 0, 0, 0.2);
 		window.drawLine({ -cameraPos.x, 0 }, { -cameraPos.x, screen.y }, 0, 0, 0, 0.2);
 
-		test1.length += 0.1 * mainClock.delta;
-		test1.arrowLength += M_PI/12 * mainClock.delta;
+		test1.length += 0.1f * mainClock.delta;
 		test1.generate();
 
 		window.drawVector(test1 * cameraScale - Utils::toCoords(cameraPos), 0, 255, 255);
@@ -62,9 +54,6 @@ int main(int argc, char** argv)
 		window.drawVector(test3 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 0);
 		window.drawVector(test4 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
 
-		fps = 1 / mainClock.delta;
-
-		//Sample text rendering
 		GUI::begin();
 
 		if (GUI::button(GEN_ID, 10, 10, 70, 20, "Zoom In", roboto))
@@ -137,13 +126,10 @@ void handleInput()
 			switch (e.button.button)
 			{
 			case SDL_BUTTON_LEFT:
-				if (!GUI::uiState.hovering)
-				{
-					mouse = Utils::getMousePos();
-					lastCamera = cameraPos;
+				if (!GUI::uiState.interacting)
 					moving = true;
-					break;
-				}
+
+				break;
 			}
 			break;
 		case SDL_MOUSEBUTTONUP:
@@ -157,12 +143,12 @@ void handleInput()
 		case SDL_MOUSEMOTION:
 			if (moving)
 			{
-				if (!GUI::uiState.hovering)
+				if (!GUI::uiState.interacting)
 				{
-					Utils::Vector2 delta = Utils::getMousePos() - mouse;
-					cameraPos.x = -delta.x + lastCamera.x;
-					cameraPos.y = -delta.y + lastCamera.y;
+					cameraPos.x -= e.motion.xrel;
+					cameraPos.y -= e.motion.yrel;
 				}
+				else moving = false;
 			}
 			break;
 		case SDL_MOUSEWHEEL:

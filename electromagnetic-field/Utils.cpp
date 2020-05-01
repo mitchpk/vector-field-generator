@@ -3,18 +3,11 @@
 
 namespace Utils
 {
-	SDL_Renderer* createWindow(int width, int height, const char* title)
-	{
-		SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
-		return SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	}
-
 	void Clock::tick()
 	{
-		last_tick_time = tick_time;
-		tick_time = SDL_GetPerformanceCounter();
-
-		delta = (double)((tick_time - last_tick_time) / (double)SDL_GetPerformanceFrequency());
+		Uint64 tick = SDL_GetPerformanceCounter();
+		delta = (tick - lastTick) / (float)SDL_GetPerformanceFrequency();
+		lastTick = tick;
 	}
 
 	// Vector3
