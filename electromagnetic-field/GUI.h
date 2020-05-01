@@ -133,6 +133,8 @@ namespace GUI
 			SDL_Rect dstrect = { x, y, surface->w, surface->h };
 			//SDL_RenderDrawRect(renderer, &dstrect);
 			SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+			SDL_DestroyTexture(texture);
+			SDL_FreeSurface(surface);
 		}
 	}
 
@@ -182,6 +184,8 @@ namespace GUI
 			SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 			SDL_Rect dstrect = { x + w / 2 - surface->w / 2, y + h / 2 - surface->h / 2, surface->w, surface->h };
 			SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+			SDL_DestroyTexture(texture);
+			SDL_FreeSurface(surface);
 		}
 
 		if (uiState.leftMouseDown == false &&
@@ -440,6 +444,8 @@ namespace GUI
 				SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 				SDL_Rect dstrect = { uiState.contextMenuX + 5, uiState.contextMenuY + 1 + uiState.contextMenuLevel * uiState.contextMenuItemHeight + uiState.contextMenuItemHeight / 2 - surface->h / 2, surface->w, surface->h };
 				SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+				SDL_DestroyTexture(texture);
+				SDL_FreeSurface(surface);
 			}
 
 			uiState.contextMenuLevel++;
