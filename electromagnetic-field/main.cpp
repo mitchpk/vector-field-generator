@@ -1,6 +1,7 @@
 #include "Utils.h"
 #include "Window.h"
 #include "GUI.h"
+#include "InputRecognition.h"
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -32,22 +33,21 @@ int main(int argc, char** argv)
 	//Vector test2 = Vector({ -2, -2 }, { 5, 10 });
 	//Vector test3 = Vector({ 11, 2 }, { 15, 1 });
 	//Vector test4 = Vector({ 0, 0 }, { 3, 4 });
-	//Vector test5 = Vector({ -5, -4 }, { -1, -1 });
+	//Vector test5 = Vector({ -5, -4 }, { -1, -1 }, 10);
 
 
 	std::vector<Vector> field = {};
+	std::vector<Variable> values = { Variable("pi", std::atan(1) * 4, true), Variable("e", std::exp(1), true), Variable("k", 1), Variable("x", -20), Variable("y", -20) };
 
-	for (float i = -5; i < 6; i++)
+	for (float i = -10; i < 11; i++)
 	{
-		for (float j = -5; j < 6; j++)
+		values[3].value = i;
+		for (float j = -10; j < 11; j++)
 		{
-			Vector temp = Vector({ i, j }, { 6, 6 });
-			field.push_back(temp);
-		}		
+			values[4].value = j;
+			field.push_back(Vector({ i, j }, { (float)(eval("y^y+x", values)), (float)(eval("2y", values))}, 0.10, scaled));
+		}	
 	}
-
-	field.push_back(Vector({ -4,-5 }, { 6,6 }));
-
 	TTF_Font* robotoBig = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 18);
 	TTF_Font* roboto = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 13);
 
@@ -71,8 +71,10 @@ int main(int argc, char** argv)
 		//window.drawVector(test4 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
 		//window.drawVector(test5 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 0);
 
-		window.drawVector(field[1] * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
-
+		for (int i = 0; i < field.size(); i++)
+		{
+			window.drawVector(field[i] * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
+		}
 
 		GUI::begin();
 

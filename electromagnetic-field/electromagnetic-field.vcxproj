@@ -93,6 +93,7 @@
     <ClInclude Include="GUI.h" />
     <ClInclude Include="InputRecognition.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Variable.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

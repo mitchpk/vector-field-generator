@@ -1,10 +1,8 @@
 #pragma once
-#include <iostream>
-#include <string>
-#include <cmath>
-#include <map>
-#include <functional>
+#include <vector>
+#include "Variable.h"
 
-float add(float x, float y);
-
-float evaluate(std::string input);
+double eval(std::string input, std::vector<Variable> variables = {});
+int NumberIndexRequest(std::string& str, int& index, bool backwards = false);
+int coefficient(std::string& input, int index);
+double tolerance(double d);
