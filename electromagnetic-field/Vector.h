@@ -64,5 +64,5 @@ struct Vector
 	bool isValid = true;
 
 private:
-	float lastLength;
+	float lastLength = 0;
 };
