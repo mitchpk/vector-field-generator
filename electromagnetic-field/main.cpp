@@ -3,6 +3,7 @@
 #include "GUI.h"
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 Utils::Vector2 screen = { 1024, 600 };
 SDL_Event e;
@@ -27,10 +28,25 @@ int main(int argc, char** argv)
 	GUI::setup(window.renderer);
 	
 	//Vectors
-	Vector test1 = Vector({ -6, 7 }, { 3, 3 });
-	Vector test2 = Vector({ -2, -2 }, { 5, 10 });
-	Vector test3 = Vector({ 11, 2 }, { 15, 1 });
-	Vector test4 = Vector({ 2, 2 }, { -3, 8 });
+	//Vector test1 = Vector({ -6, 7 }, { 3, 3 });
+	//Vector test2 = Vector({ -2, -2 }, { 5, 10 });
+	//Vector test3 = Vector({ 11, 2 }, { 15, 1 });
+	//Vector test4 = Vector({ 0, 0 }, { 3, 4 });
+	//Vector test5 = Vector({ -5, -4 }, { -1, -1 });
+
+
+	std::vector<Vector> field = {};
+
+	for (float i = -5; i < 6; i++)
+	{
+		for (float j = -5; j < 6; j++)
+		{
+			Vector temp = Vector({ i, j }, { 6, 6 });
+			field.push_back(temp);
+		}		
+	}
+
+	field.push_back(Vector({ -4,-5 }, { 6,6 }));
 
 	TTF_Font* robotoBig = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 18);
 	TTF_Font* roboto = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 13);
@@ -46,13 +62,17 @@ int main(int argc, char** argv)
 		window.drawLine({ 0, -cameraPos.y }, { screen.x, -cameraPos.y }, 0, 0, 0, 0.2);
 		window.drawLine({ -cameraPos.x, 0 }, { -cameraPos.x, screen.y }, 0, 0, 0, 0.2);
 
-		test1.length += 0.1f * mainClock.delta;
-		test1.generate();
+		//test1.length += 0.1f * mainClock.delta;
+		//test1.generate();
 
-		window.drawVector(test1 * cameraScale - Utils::toCoords(cameraPos), 0, 255, 255);
-		window.drawVector(test2 * cameraScale - Utils::toCoords(cameraPos), 155, 0, 55);
-		window.drawVector(test3 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 0);
-		window.drawVector(test4 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
+		//window.drawVector(test1 * cameraScale - Utils::toCoords(cameraPos), 0, 255, 255);
+		//window.drawVector(test2 * cameraScale - Utils::toCoords(cameraPos), 155, 0, 55);
+		//window.drawVector(test3 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 0);
+		//window.drawVector(test4 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
+		//window.drawVector(test5 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 0);
+
+		window.drawVector(field[1] * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
+
 
 		GUI::begin();
 
