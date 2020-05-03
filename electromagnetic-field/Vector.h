@@ -3,7 +3,7 @@
 
 enum VectorType
 {
-	scaled,
+	normal,
 	fixed,
 	constrained
 };
@@ -13,7 +13,8 @@ struct Vector
 	Vector( Utils::Vector2 tail,
 			Utils::Vector2 head,
 			float length = 1,
-			VectorType type = VectorType::scaled,
+			VectorType type = VectorType::normal,
+			float scale = 1,
 			float arrowAngle = M_PI / 5.6f, 
 			float arrowProportion = 0.1f );
 
@@ -60,6 +61,7 @@ struct Vector
 	Utils::Vector2 arrowPoint2;
 	float arrowAngle;
 	float arrowProportion;
+	float scale;
 
 	bool isValid = true;
 

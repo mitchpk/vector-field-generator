@@ -1,8 +1,8 @@
 #include "Vector.h"
 #include <cmath>
 
-Vector::Vector(Utils::Vector2 _tail, Utils::Vector2 _head, float _length, VectorType _type, float _arrowAngle, float _arrowProportion) : 
-	head(_head), tail(_tail), length(_length), type(_type), arrowAngle(_arrowAngle), arrowProportion(_arrowProportion)
+Vector::Vector(Utils::Vector2 _tail, Utils::Vector2 _head, float _length, VectorType _type, float _scale, float _arrowAngle, float _arrowProportion) : 
+	head(_head), tail(_tail), length(_length), type(_type), scale(_scale), arrowAngle(_arrowAngle), arrowProportion(_arrowProportion)
 {	
 	generate();
 }
@@ -18,17 +18,16 @@ void Vector::generate()
 	{
 		switch (type)
 		{
-		case VectorType::scaled:
-			calculatedHead = (head - tail) * length + tail;
+		case VectorType::normal:
+			calculatedHead = (head - tail) * scale + tail;
 			break;
 		case VectorType::fixed:
-			calculatedHead = (head - tail).normalised() * length + tail;
+			calculatedHead = (calculatedHead - tail).normalised() * length + tail;
 			break;
 		case VectorType::constrained:
+			calculatedHead = (head - tail) * scale + tail;
 			if ((head - tail).length() > length)
-				calculatedHead = (head - tail).normalised() * length + tail;
-			else
-				calculatedHead = head;
+				calculatedHead = (calculatedHead - tail).normalised() * length + tail;
 			break;
 		}
 	}

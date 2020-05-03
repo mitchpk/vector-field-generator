@@ -39,13 +39,13 @@ int main(int argc, char** argv)
 	std::vector<Vector> field = {};
 	std::vector<Variable> values = { Variable("pi", std::atan(1) * 4, true), Variable("e", std::exp(1), true), Variable("k", 1), Variable("x", -20), Variable("y", -20) };
 
-	for (float i = -10; i < 11; i++)
+	for (float i = -20; i < 21; i++)
 	{
 		values[3].value = i;
-		for (float j = -10; j < 11; j++)
+		for (float j = -20; j < 21; j++)
 		{
 			values[4].value = j;
-			field.push_back(Vector({ i, j }, { (float)(eval("y^y+x", values)), (float)(eval("2y", values))}, 0.10, scaled));
+			field.push_back(Vector({ i, j }, { (float)eval("1/x+x", values), (float)eval("1/y+y", values)}, 0.6, constrained, 0.1));
 		}	
 	}
 	TTF_Font* robotoBig = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 18);
