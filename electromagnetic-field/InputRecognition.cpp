@@ -104,9 +104,13 @@ double eval(std::string input, std::vector<Variable> variables) {
 		}
 
 		//Subtraction
-		for (int i = 0; i < input.length(); i++)
+		while (input.find("--") != std::string::npos) {
+			input.replace(input.find("--"), 2, "+");
+		}
+
+		for (int i = 1; i < input.length(); i++)
 		{
-			if (input[i] == '-' && i > 0) {
+			if (input[i] == '-') {
 				int minNumIndex = NumberIndexRequest(input, i, true);
 				int maxNumIndex = NumberIndexRequest(input, i);
 				if (minNumIndex != i && maxNumIndex != i) {

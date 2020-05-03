@@ -29,25 +29,29 @@ int main(int argc, char** argv)
 	GUI::setup(window.renderer);
 	
 	//Vectors
-	//Vector test1 = Vector({ -6, 7 }, { 3, 3 });
-	//Vector test2 = Vector({ -2, -2 }, { 5, 10 });
-	//Vector test3 = Vector({ 11, 2 }, { 15, 1 });
-	//Vector test4 = Vector({ 0, 0 }, { 3, 4 });
-	//Vector test5 = Vector({ -5, -4 }, { -1, -1 }, 10);
+	std::string F1, F2;
+	
+	//Input
+	std::cout << "Enter expression 1: "; std::getline(std::cin, F1);
+	std::cout << std::endl << "Enter expression 2: "; std::getline(std::cin, F2);
+	std::cout << std::endl; 
 
-
+	//Estabilishing the field
 	std::vector<Vector> field = {};
 	std::vector<Variable> values = { Variable("pi", std::atan(1) * 4, true), Variable("e", std::exp(1), true), Variable("k", 1), Variable("x", -20), Variable("y", -20) };
+	float maxUnscaledLength = 0;
 
-	for (float i = -20; i < 21; i++)
+	//Calculating Vectors
+	for (values[3].value = -20; values[3].value < 21; values[3].value++)
 	{
-		values[3].value = i;
-		for (float j = -20; j < 21; j++)
+		for (values[4].value = -20; values[4].value < 21; values[4].value++)
 		{
-			values[4].value = j;
-			field.push_back(Vector({ i, j }, { (float)eval("1/x+x", values), (float)eval("1/y+y", values)}, 0.6, constrained, 0.1));
+			Utils::Vector2 P = { (float)eval(F1, values), (float)eval(F2, values) };
+			field.push_back(Vector({ (float)values[3].value, (float)values[4].value }, P += {(float)values[3].value, (float)values[4].value}, 0.8, constrained, 0.1));
+			if (P.length() > maxUnscaledLength) { maxUnscaledLength = P.length(); std::cout << maxUnscaledLength << std::endl; }
 		}	
 	}
+
 	TTF_Font* robotoBig = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 18);
 	TTF_Font* roboto = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 13);
 
@@ -73,7 +77,7 @@ int main(int argc, char** argv)
 
 		for (int i = 0; i < field.size(); i++)
 		{
-			window.drawVector(field[i] * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
+			window.drawVector(field[i] * cameraScale - Utils::toCoords(cameraPos), 255, 225 * field[i].unscaledLength * 1 / maxUnscaledLength, 0);
 		}
 
 		GUI::begin();

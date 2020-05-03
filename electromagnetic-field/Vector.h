@@ -62,6 +62,7 @@ struct Vector
 	float arrowAngle;
 	float arrowProportion;
 	float scale;
+	float unscaledLength=(head-tail).length();
 
 	bool isValid = true;
 

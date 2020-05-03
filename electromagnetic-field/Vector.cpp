@@ -9,6 +9,7 @@ Vector::Vector(Utils::Vector2 _tail, Utils::Vector2 _head, float _length, Vector
 
 void Vector::generate()
 {
+
 	if (head == tail)
 		isValid = false;
 	else
