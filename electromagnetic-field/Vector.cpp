@@ -23,7 +23,7 @@ void Vector::generate()
 			calculatedHead = (head - tail) * scale + tail;
 			break;
 		case VectorType::fixed:
-			calculatedHead = (calculatedHead - tail).normalised() * length + tail;
+			calculatedHead = (head - tail).normalised() * length + tail;
 			break;
 		case VectorType::constrained:
 			calculatedHead = (head - tail) * scale + tail;
