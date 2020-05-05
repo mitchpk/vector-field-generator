@@ -52,10 +52,6 @@ int main(int argc, char** argv)
 		//test1.generate();
 
 		//window.drawVector(test1 * cameraScale - Utils::toCoords(cameraPos), 0, 255, 255);
-		//window.drawVector(test2 * cameraScale - Utils::toCoords(cameraPos), 155, 0, 55);
-		//window.drawVector(test3 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 0);
-		//window.drawVector(test4 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 255);
-		//window.drawVector(test5 * cameraScale - Utils::toCoords(cameraPos), 255, 0, 0);
 
 		for (int i = 0; i < field.size(); i++)
 		{
