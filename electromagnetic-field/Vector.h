@@ -16,7 +16,7 @@ struct Vector
 			VectorType type = VectorType::normal,
 			float scale = 1,
 			float arrowAngle = M_PI / 5.6f, 
-			float arrowProportion = 0.1f );
+			float arrowProportion = 0.2f );
 
 	void generate();
 	void calculateArrow();

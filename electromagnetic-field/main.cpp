@@ -27,30 +27,12 @@ int main(int argc, char** argv)
 	window.create(screen.x, screen.y, "Vector Field");
 
 	GUI::setup(window.renderer);
-	
-	//Vectors
-	std::string F1, F2;
-	
-	//Input
-	std::cout << "Enter expression 1: "; std::getline(std::cin, F1);
-	std::cout << std::endl << "Enter expression 2: "; std::getline(std::cin, F2);
-	std::cout << std::endl; 
 
 	//Estabilishing the field
 	std::vector<Vector> field = {};
 	std::vector<Variable> values = { Variable("pi", std::atan(1) * 4, true), Variable("e", std::exp(1), true), Variable("k", 1), Variable("x", -20), Variable("y", -20) };
+	
 	float maxUnscaledLength = 0;
-
-	//Calculating Vectors
-	for (values[3].value = -20; values[3].value < 21; values[3].value++)
-	{
-		for (values[4].value = -20; values[4].value < 21; values[4].value++)
-		{
-			Utils::Vector2 P = { (float)eval(F1, values), (float)eval(F2, values) };
-			field.push_back(Vector({ (float)values[3].value, (float)values[4].value }, P += {(float)values[3].value, (float)values[4].value}, 0.5, fixed, 0.1));
-			if (P.length() > maxUnscaledLength) { maxUnscaledLength = P.length(); std::cout << maxUnscaledLength << std::endl; }
-		}	
-	}
 
 	TTF_Font* robotoBig = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 18);
 	TTF_Font* roboto = TTF_OpenFont("fonts/Roboto/Roboto-Regular.ttf", 13);
@@ -82,26 +64,35 @@ int main(int argc, char** argv)
 
 		GUI::begin();
 
-		if (GUI::button(GEN_ID, 10, 10, 70, 20, "Zoom In", roboto))
+		GUI::beginContextMenu(140, 2);
+
+		if (GUI::contextMenuItem(GEN_ID, "Change Vector Field", roboto) || 
+			GUI::button(GEN_ID, 10, 10, 130, 22, "Change Vector Field", roboto))
 		{
-			cameraScale *= 1.2;
+			field.clear();
+
+			//Vectors
+			std::string F1, F2;
+
+			//Input
+			std::cout << "Enter expression 1: "; std::getline(std::cin, F1);
+			std::cout << std::endl << "Enter expression 2: "; std::getline(std::cin, F2);
+			std::cout << std::endl;
+
+			//Calculating Vectors
+			for (values[3].value = -20; values[3].value < 21; values[3].value++)
+			{
+				for (values[4].value = -20; values[4].value < 21; values[4].value++)
+				{
+					Utils::Vector2 P = { (float)eval(F1, values), (float)eval(F2, values) };
+					field.push_back(Vector({ (float)values[3].value, (float)values[4].value }, P += {(float)values[3].value, (float)values[4].value}, 0.8, constrained, 0.1));
+					if (P.length() > maxUnscaledLength) { maxUnscaledLength = P.length(); std::cout << maxUnscaledLength << std::endl; }
+				}
+			}
 		}
 
-		if (GUI::button(GEN_ID, 10, 40, 70, 20, "Zoom Out", roboto))
-		{
-			cameraScale /= 1.2;
-		}
-
-		GUI::beginContextMenu(120, 2);
-
-		if (GUI::contextMenuItem(GEN_ID, "Add Vector", roboto))
-		{
-			printf("Added Vector\n");
-		}
-		if (GUI::contextMenuItem(GEN_ID, "Add Pole", roboto))
-		{
-			printf("Added Pole\n");
-		}
+		if (GUI::contextMenuItem(GEN_ID, "Exit", roboto))
+			quit = true;
 
 		GUI::endContextMenu();
 
