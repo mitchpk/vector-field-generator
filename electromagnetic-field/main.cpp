@@ -81,7 +81,7 @@ int main(int argc, char** argv)
 				for (values[4].value = -20; values[4].value < 21; values[4].value++)
 				{
 					Utils::Vector2 P = { (float)eval(F1, values), (float)eval(F2, values) };
-					field.push_back(Vector({ (float)values[3].value, (float)values[4].value }, P += {(float)values[3].value, (float)values[4].value}, 0.8, constrained, 0.1));
+					field.push_back(Vector({ (float)values[3].value, (float)values[4].value }, P += {(float)values[3].value, (float)values[4].value}, 0.8, constrained, 1, 0.56 ));
 					if (P.length() > maxUnscaledLength) { maxUnscaledLength = P.length(); std::cout << maxUnscaledLength << std::endl; }
 				}
 			}
