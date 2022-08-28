@@ -1,3 +1,5 @@
+// This is horrible... I am so sorry for anyone reading this. But hey, it has been two years, and I now know how to properly parse input!
+
 #include "InputRecognition.h"
 #include <algorithm>
 
